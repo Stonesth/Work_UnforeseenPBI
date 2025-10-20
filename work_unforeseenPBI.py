@@ -20,12 +20,14 @@ from tkinter import messagebox
 save_path = os.path.dirname(os.path.abspath("__file__"))
 propertiesFolder_path = save_path + "\\"+ "Properties"
 
-a.save_path = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'save_path=')
-a.boards = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'boards=')
-a.pbi = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'pbi=')
+# a.save_path = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'save_path=')
+# a.boards = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'boards=')
+# a.pbi = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'pbi=')
 
 
-
+a.iteration = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'iteration=')
+a.sprint = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'sprint=')
+a.incidentNumber = tools.readProperty(propertiesFolder_path, 'Work_UnforeseenPBI', 'incidentNumber=')
 
 
 
@@ -60,7 +62,8 @@ time.sleep(1)
 # Force refresh the page
 tools.driver.refresh()
 
-# m.startTrack2()
+# Start tracking time
+m.startTrack2()
 time.sleep(1)
 
 # ServiceNow part
@@ -74,4 +77,9 @@ print("incidentTitle = ", sn.incidentTitle )
 print("description_text = ", sn.description_text )
 
 # Create a new PBI in Azure DevOps
-# a.createNewPBI(sn.caller, sn.incidentTitle, sn.description_text)
+# def createNewPBI(iteration, sprint, caller, incidentTitle, description_text) :
+# ex : createNewPBI("2025.4", ".2", "JF30LB", "Test from automation", "This is a test from automation to create a new PBI in Azure DevOps")
+a.createNewPBI(a.iteration, a.sprint, sn.user_name, "RUN - " + a.incidentNumber + " - " + sn.incidentTitle, "Caller = " + sn.caller + "\n" + sn.description_text)
+
+
+time.sleep(20)
