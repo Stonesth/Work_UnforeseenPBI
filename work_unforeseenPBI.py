@@ -7,6 +7,7 @@ from os.path import dirname
 import time
 import tkinter as tk
 from tkinter import messagebox
+from selenium.webdriver.common.by import By
 
 import myhours_part
 
@@ -57,7 +58,7 @@ if True:
     # Create a new PBI in Azure DevOps
     # def createNewPBI(iteration, sprint, caller, incidentTitle, description_text) :
     # ex : createNewPBI("2025.4", ".2", "JF30LB", "Test from automation", "This is a test from automation to create a new PBI in Azure DevOps")
-    a.createNewPBI(a.iteration, a.sprint, sn.user_name, "RUN - " + sn.incident_change_id + " - " + sn.incidentTitle, "Caller = " + sn.caller + "\n" + sn.description_text)
+    a.createNewPBI(a.iteration, a.sprint, sn.user_name, "RUN - " + sn.incident_change_id + " - " + sn.incidentTitle, "Url = " + "https://nn.service-now.com/text_search_exact_match.do?sysparm_search=" + sn.incident_change_id + "\n" + "Caller = " + sn.caller + "\n" + sn.description_text)
 else :
     # It's to test the findCreatedPBIID function without creating a new PBI
     tools.driver.get("https://dev.azure.com/NNBE/Finance/_backlogs/backlog/Finance%20Boards%20Team/Features?showParents=true&System.AreaPath=IT%20Finance&text=%5B" + a.iteration + "%5D%20IT%20Finance%20RUN&System.IterationPath=Finance%5CPI" + a.iteration)
@@ -65,9 +66,16 @@ else :
     tools.waitLoadingPageByXPATH2(5, '//*[@id="__bolt-4"]/td[5]/div/a')
 
 
-# Need to find in Azure DevOps the created PBI ID and fillin in the MyHours entry
-print("Find the created PBI ID in Azure DevOps")
-pbi_id = a.findCreatedPBIID("RUN - " + sn.incident_change_id + " - " + sn.incidentTitle)
+# # Need to find in Azure DevOps the created PBI ID and fillin in the MyHours entry
+# print("Find the created PBI ID in Azure DevOps")
+# pbi_id = a.findCreatedPBIID("RUN - " + sn.incident_change_id + " - " + sn.incidentTitle)
+
+# Need to find the PBI ID on the page
+# /html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/text()
+tools.waitLoadingPageByXPATH2(10, '/html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]')
+pbi_id_element = tools.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]').text
+pbi_id = pbi_id_element.strip()
+print("Found PBI ID: " + pbi_id)
 
 if pbi_id == "" :
     print("Error : PBI ID not found")
