@@ -72,8 +72,8 @@ else :
 
 # Need to find the PBI ID on the page
 # /html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/text()
-tools.waitLoadingPageByXPATH2(10, '/html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]')
-pbi_id_element = tools.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div[2]').text
+tools.waitLoadingPageByXPATH2(10, '//*[@id="skip-to-main-content"]/div/div[1]/div/div[1]/div[2]/div[2]')
+pbi_id_element = tools.driver.find_element(By.XPATH, '//*[@id="skip-to-main-content"]/div/div[1]/div/div[1]/div[2]/div[2]').text
 pbi_id = pbi_id_element.strip()
 print("Found PBI ID: " + pbi_id)
 
