@@ -3,6 +3,8 @@ from MyHours import myhours as m
 from AzureDevOps import azuredevops as a
 from ServiceNow import servicenow as sn
 import os
+import subprocess
+import sys
 from os.path import dirname
 import time
 import tkinter as tk
@@ -93,7 +95,9 @@ tools.updateProperty(startpbi_properties_path, 'StartPBI', 'pbi=', pbi_id)
 tools.updateProperty(save_path + "\\" + "Properties", 'StartPBI', 'pbi=', pbi_id)
 
 # Need to run the StartPBI.py python script
-os.system('python "' + os.path.join(os.path.dirname(save_path), "StartPBI", "start_pbi.py") + '"')
+startpbi_script = os.path.join(os.path.dirname(save_path), "StartPBI", "start_pbi.py")
+# Reuse the active interpreter so StartPBI runs in the same venv.
+subprocess.run([sys.executable, startpbi_script], check=True)
 
 
 time.sleep(20)

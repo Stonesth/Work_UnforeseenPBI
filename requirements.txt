@@ -1,0 +1,4 @@
+selenium
+chromedriver_py
+keyboard
+typing_extensions
